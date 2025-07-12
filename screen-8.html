@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Byte Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(135deg, #7b87e6 0%, #7467c7 100%);
+      color: #22223b;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Floating dots */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      top: -120px; left: -120px;
+      width: 350px; height: 350px;
+      background: rgba(140, 160, 255, 0.25);
+    }
+    body::after {
+      top: 38px; right: 38px;
+      width: 10px; height: 10px;
+      background: rgba(255,255,255,0.25);
+    }
+    .dot {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      z-index: 0;
+      pointer-events: none;
+      animation: floatDot 12s linear infinite;
+    }
+    .dot1 { width: 8px; height: 8px; left: 60vw; top: 40vh; animation-delay: 0s;}
+    .dot2 { width: 6px; height: 6px; left: 70vw; top: 60vh; animation-delay: 2s;}
+    .dot3 { width: 5px; height: 5px; left: 30vw; top: 70vh; animation-delay: 4s;}
+    @keyframes floatDot {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    .admin-container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 12px 32px rgba(102,126,234,0.13);
+      padding: 36px 28px 28px 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .admin-header {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #5f3dc4;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+    .admin-nav {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .admin-nav button {
+      background: #e0e7ff;
+      color: #5f3dc4;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(102,126,234,0.07);
+      transition: background 0.2s, color 0.2s;
+    }
+    .admin-nav button.active, .admin-nav button:hover {
+      background: #7b87e6;
+      color: #fff;
+    }
+    .section-title {
+      text-align: center;
+      color: #7467c7;
+      font-size: 1.2rem;
+      margin: 30px 0 18px 0;
+      letter-spacing: 1px;
+    }
+    .user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .user-card {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(102,126,234,0.07);
+      padding: 18px 24px;
+      gap: 24px;
+      position: relative;
+      transition: box-shadow 0.3s;
+    }
+    .user-card:hover {
+      box-shadow: 0 8px 32px rgba(102,126,234,0.13);
+    }
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e0e7ff;
+      border: 3px solid #c7d2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      color: #7b87e6;
+      position: relative;
+      overflow: hidden;
+    }
+    .user-avatar input[type='file'] {
+      display: none;
+    }
+    .upload-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(123,135,230,0.85);
+      color: #fff;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 2px 0;
+      cursor: pointer;
+      border-radius: 0 0 50% 50%;
+      opacity: 0.85;
+      transition: background 0.2s;
+    }
+    .user-details {
+      flex: 1;
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 24px;
+      font-size: 1.08rem;
+      color: #5f3dc4;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(102,126,234,0.04);
+    }
+    .user-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 120px;
+    }
+    .user-actions button {
+      background: #e0e7ff;
+      color: #5f3dc4;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .user-actions button:hover {
+      background: #7b87e6;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .admin-container { padding: 10px 2px; }
+      .user-card { flex-direction: column; align-items: stretch; gap: 10px; }
+      .user-details { padding: 10px 8px; }
+      .user-avatar { margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dot dot1"></div>
+  <div class="dot dot2"></div>
+  <div class="dot dot3"></div>
+  <div class="admin-container">
+    <div class="admin-header">Admin Panel</div>
+    <div class="admin-nav">
+      <button class="active" onclick="showSection('users')">Manage User</button>
+      <button onclick="showSection('orders')">Manage Orders</button>
+      <button onclick="showSection('listings')">Manage Listings</button>
+    </div>
+    <div id="section-users">
+      <div class="section-title">Manage Users</div>
+      <div class="user-list" id="userList">
+        <!-- User cards will be injected here -->
+      </div>
+    </div>
+    <div id="section-orders" style="display:none;">
+      <div class="section-title">Manage Orders</div>
+      <div style="text-align:center; color:#aaa; font-size:1.1rem;">(Demo) Orders management coming soon.</div>
+    </div>
+    <div id="section-listings" style="display:none;">
+      <div class="section-title">Manage Listings</div>
+      <div style="text-align:center; color:#aaa; font-size:1.1rem;">(Demo) Listings management coming soon.</div>
+    </div>
+  </div>
+  <script>
+    // Demo user data
+    const users = [
+      {
+        id: 1,
+        name: "Jane Doe",
+        email: "jane.doe@email.com",
+        role: "User",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      {
+        id: 2,
+        name: "John Smith",
+        email: "john.smith@email.com",
+        role: "Moderator",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      {
+        id: 3,
+        name: "Alice Lee",
+        email: "alice.lee@email.com",
+        role: "User",
+        avatar: "https://randomuser.me/api/portraits/women/68.jpg"
+      },
+      {
+        id: 4,
+        name: "Bob Brown",
+        email: "bob.brown@email.com",
+        role: "User",
+        avatar: "https://randomuser.me/api/portraits/men/65.jpg"
+      }
+    ];
+
+    function renderUsers() {
+      const userList = document.getElementById('userList');
+      userList.innerHTML = '';
+      users.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        card.innerHTML = `
+          <div class="user-avatar" id="avatar-${user.id}">
+            <img src="${user.avatar}" alt="${user.name}" style="width:100%;height:100%;">
+            <label class="upload-label" for="upload-${user.id}"><i class="fa fa-upload"></i> Upload</label>
+            <input type="file" id="upload-${user.id}" accept="image/*">
+          </div>
+          <div class="user-details">
+            <div><b>${user.name}</b> (${user.role})</div>
+            <div style="font-size:0.98rem; color:#555;">${user.email}</div>
+            <div style="font-size:0.95rem; color:#aaa;">User ID: ${user.id}</div>
+          </div>
+          <div class="user-actions">
+            <button onclick="alert('Action 1 for ${user.name}')">Action 1</button>
+            <button onclick="alert('Action 2 for ${user.name}')">Action 2</button>
+          </div>
+        `;
+        userList.appendChild(card);
+
+        // Avatar upload logic
+        const input = card.querySelector(#upload-${user.id});
+        input.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+              card.querySelector('img').src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+    }
+    renderUsers();
+
+    // Navigation logic
+    function showSection(section) {
+      document.getElementById('section-users').style.display = section === 'users' ? '' : 'none';
+      document.getElementById('section-orders').style.display = section === 'orders' ? '' : 'none';
+      document.getElementById('section-listings').style.display = section === 'listings' ? '' : 'none';
+      document.querySelectorAll('.admin-nav button').forEach((btn, idx) => {
+        btn.classList.toggle('active', 
+          (section === 'users' && idx === 0) ||
+          (section === 'orders' && idx === 1) ||
+          (section === 'listings' && idx === 2)
+        );
+      });
+    }
+  </script>
+</body>
+</html>
