@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
-// In-memory user storage (in production, use a database)
+
 let users = [
   {
     id: '1',
@@ -17,7 +17,7 @@ let users = [
   }
 ];
 
-// Middleware to verify JWT token
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -35,7 +35,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Register new user
+
 router.post('/register', [
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 6 }),
@@ -49,16 +49,16 @@ router.post('/register', [
 
     const { email, password, name } = req.body;
 
-    // Check if user already exists
+    
     const existingUser = users.find(user => user.email === email);
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Hash password
+   
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
+  
     const newUser = {
       id: Date.now().toString(),
       email,
@@ -71,7 +71,7 @@ router.post('/register', [
 
     users.push(newUser);
 
-    // Generate JWT token
+   
     const token = jwt.sign(
       { userId: newUser.id, email: newUser.email, role: newUser.role },
       process.env.JWT_SECRET || 'your-secret-key',
@@ -95,7 +95,7 @@ router.post('/register', [
   }
 });
 
-// Login user
+
 router.post('/login', [
   body('email').isEmail().normalizeEmail(),
   body('password').notEmpty()
@@ -108,19 +108,19 @@ router.post('/login', [
 
     const { email, password } = req.body;
 
-    // Find user
+   
     const user = users.find(u => u.email === email);
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check password
+    
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate JWT token
+    
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'your-secret-key',
