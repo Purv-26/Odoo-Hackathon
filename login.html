@@ -981,7 +981,7 @@
         }
 
         function validatePassword(password) {
-            const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)[a-zA-Z\d@$!%?&]{8,}$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
             return passwordRegex.test(password);
         }
 
@@ -1013,7 +1013,7 @@
             
             if (password.length > 0) {
                 const indicator = document.createElement('div');
-                indicator.className = password-strength ${strength};
+                indicator.className = `password-strength ${strength}`;
                 indicator.innerHTML = '<div class="password-strength-bar"></div>';
                 input.parentElement.parentElement.appendChild(indicator);
             }
@@ -1027,7 +1027,7 @@
         // Enhanced message function
         function showMessage(message, type = 'success') {
             const messageElement = document.createElement('div');
-            messageElement.className = message ${type};
+            messageElement.className = `message ${type}`;
             
             const iconMap = {
                 success: 'fas fa-check-circle',
@@ -1076,7 +1076,7 @@
                 localStorage.setItem('isLoggedIn', 'true');
 
                 // Show success message
-                showMessage('Welcome ' + userData.name + '! Successfully signed in with Google.', 'success');
+                showMessage(`Welcome ${userData.name}! Successfully signed in with Google.`, 'success');
 
                 // Show user profile
                 showUserProfile(userData);
@@ -1178,7 +1178,7 @@
                     // Create mock user data for regular login
                     const mockUserData = {
                         name: username,
-                        email: username + '@fashionbyte.com',
+                        email: `${username}@fashionbyte.com`,
                         picture: 'https://via.placeholder.com/150/667eea/ffffff?text=' + username.charAt(0).toUpperCase(),
                         sub: 'local_' + Date.now(),
                         email_verified: true
@@ -1253,7 +1253,7 @@
                 // Create mock user data for signup
                 const mockUserData = {
                     name: name,
-                    email: username + '@fashionbyte.com',
+                    email: `${username}@fashionbyte.com`,
                     picture: 'https://via.placeholder.com/150/667eea/ffffff?text=' + name.charAt(0).toUpperCase(),
                     sub: 'local_' + Date.now(),
                     email_verified: true
