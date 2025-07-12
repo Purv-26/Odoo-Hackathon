@@ -2,7 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
-// Middleware to verify JWT token and admin role
+
 const authenticateAdmin = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -26,7 +26,7 @@ const authenticateAdmin = (req, res, next) => {
   });
 };
 
-// In-memory storage (in production, use a database)
+
 let items = [
   {
     id: '1',
@@ -73,7 +73,7 @@ let users = [
   }
 ];
 
-// Get all pending items for moderation
+
 router.get('/pending-items', authenticateAdmin, (req, res) => {
   try {
     const pendingItems = items.filter(item => !item.approved);
@@ -84,7 +84,7 @@ router.get('/pending-items', authenticateAdmin, (req, res) => {
   }
 });
 
-// Get all items (admin view)
+
 router.get('/items', authenticateAdmin, (req, res) => {
   try {
     const { status, approved } = req.query;
@@ -106,7 +106,7 @@ router.get('/items', authenticateAdmin, (req, res) => {
   }
 });
 
-// Get all users (admin view)
+
 router.get('/users', authenticateAdmin, (req, res) => {
   try {
     const userList = users.map(user => ({
@@ -126,7 +126,7 @@ router.get('/users', authenticateAdmin, (req, res) => {
   }
 });
 
-// Ban/Activate user
+
 router.put('/users/:id/:action', authenticateAdmin, (req, res) => {
   try {
     const { id, action } = req.params;
@@ -154,7 +154,7 @@ router.put('/users/:id/:action', authenticateAdmin, (req, res) => {
   }
 });
 
-// Approve item
+
 router.put('/items/:id/approve', authenticateAdmin, (req, res) => {
   try {
     const itemIndex = items.findIndex(item => item.id === req.params.id);
@@ -175,7 +175,7 @@ router.put('/items/:id/approve', authenticateAdmin, (req, res) => {
   }
 });
 
-// Reject item
+
 router.put('/items/:id/reject', authenticateAdmin, [
   body('reason').trim().isLength({ min: 5, max: 200 })
 ], (req, res) => {
@@ -206,7 +206,7 @@ router.put('/items/:id/reject', authenticateAdmin, [
   }
 });
 
-// Remove item (admin delete)
+
 router.delete('/items/:id', authenticateAdmin, (req, res) => {
   try {
     const itemIndex = items.findIndex(item => item.id === req.params.id);
@@ -226,11 +226,10 @@ router.delete('/items/:id', authenticateAdmin, (req, res) => {
   }
 });
 
-// Get all swaps (admin view)
+
 router.get('/swaps', authenticateAdmin, (req, res) => {
   try {
-    // This would typically come from a swaps collection
-    // For now, returning empty array as swaps are handled in swaps.js
+    
     res.json([]);
   } catch (error) {
     console.error('Get swaps error:', error);
