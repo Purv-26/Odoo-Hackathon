@@ -1,0 +1,24 @@
+Odoo-Hackathon/
+├── server/
+│   ├── index.js              # Main server file
+│   ├── routes/
+│   │   ├── auth.js           # Authentication routes
+│   │   ├── items.js          # Item management routes
+│   │   ├── swaps.js          # Swap system routes
+│   │   └── admin.js          # Admin panel routes
+│   └── uploads/              # Image upload directory
+├── client/
+│   ├── public/
+│   │   └── index.html        # Main HTML file
+│   ├── src/
+│   │   ├── components/       # Reusable components
+│   │   ├── contexts/         # React contexts
+│   │   ├── pages/            # Page components
+│   │   ├── App.js            # Main app component
+│   │   ├── index.js          # React entry point
+│   │   └── index.css         # Global styles
+│   ├── package.json          # Frontend dependencies
+│   ├── tailwind.config.js    # Tailwind configuration
+│   └── postcss.config.js     # PostCSS configuration
+├── package.json              # Backend dependencies
+└── README.md                 # Project documentation
